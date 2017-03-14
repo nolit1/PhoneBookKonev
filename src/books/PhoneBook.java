@@ -1,4 +1,4 @@
-package Books;
+package books;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -6,48 +6,38 @@ import java.util.regex.*;
 
 public class PhoneBook {
 
-    private class obj {
-        String name;
-        ArrayList<String> Number = new ArrayList<>();
+    private static ArrayList<Obj> book = new ArrayList<>();
 
-        @Override
-        public String toString() {
-            return "Имя: " + name + " " + "Номер: " + Number + "\n";
-        }
-    }
-
-    private static ArrayList<obj> book = new ArrayList<>();
-
-    private boolean adnumber(String numPhone) {
+    private boolean trueNumber(String numPhone) {  //проверка формата номера
         Pattern p = Pattern.compile("[\\d*#()\\-+]+");
         Matcher m = p.matcher(numPhone);
         return m.matches();
     }
 
-    private void addRecord(String name, String numPhone) {
-        obj a = new obj();
+    public void addRecord(String name, String numPhone) {
+        Obj a = new Obj();
         a.name = name;
-        if (adnumber(numPhone)) {
-            a.Number.add(numPhone);
+        if (trueNumber(numPhone)) {
+            a.number.add(numPhone);
             book.add(a);
         }
         else System.out.println("Номер некорректен");
     }
 
     //метод удаление записи
-    private void delRecord(String names) {
-        obj result = new obj();
-        for (obj aBook : book) {
+    public void delRecord(String names) {
+        Obj result = new Obj();
+        for (Obj aBook : book) {
             if (names.equals(aBook.name)) result = aBook;
         }
         book.remove(result);
     }
 
     //метод добавления номера
-    private void addNumber(String names, String numbers) {
-        for (obj aBook : book) {
+    public void addNumber(String names, String numbers) {
+        for (Obj aBook : book) {
             if (names.equals(aBook.name)) {
-                if (adnumber(numbers)) aBook.Number.add(numbers);
+                if (trueNumber(numbers)) aBook.number.add(numbers);
                 else System.out.println("Номер некорректен");
             }
         }
@@ -55,46 +45,49 @@ public class PhoneBook {
 
     //метод удаление номера
     private void delNumber(String names, String numbers) {
-        for (obj aBook : book) {
+        for (Obj aBook : book) {
             if (names.equals(aBook.name)) {
-                aBook.Number.remove(numbers);
+                aBook.number.remove(numbers);
             }
         }
     }
 
     //метод поиска по имени
-    private obj searchByName(String names) {
-        obj result = new obj();
-        for (obj aBook : book) {
+    private ArrayList<Obj> searchByName(String names) {
+        ArrayList<Obj> miniBook = new ArrayList<>();
+        //Obj result = new Obj();
+        for (Obj aBook : book) {
             if (names.equals(aBook.name)) {
-                result = aBook;
+                miniBook.add(aBook);
             }
 
         }
-        return result;
+        return miniBook;
     }
 
     //метод поиск по номеру
-    private obj searchByNumber(String numbers) {
-        obj result = new obj();
-        for (obj aBook : book) {
-            if (aBook.Number.indexOf(numbers) != -1) {
-                result = aBook;
-                break;
+    private ArrayList<Obj> searchByNumber(String numbers) {
+       // Obj result = new Obj();
+        ArrayList<Obj> miniBook = new ArrayList<>();
+        for (Obj aBook : book) {
+            if (aBook.number.indexOf(numbers) != -1) {
+                miniBook.add(aBook);
             }
         }
-        return result; //System.out.println("Контактов с этим номером нет");
+        return miniBook; //System.out.println("Контактов с этим номером нет");
     }
 
     //формат вывода
     @Override
     public String toString() {
         String result = "";
-        for (obj aBook : book) {
-            result = result + "Имя: " + aBook.name + " " + "Номер: " + aBook.Number + "\n";
+        for (Obj aBook : book) {
+            result = result + "Имя: " + aBook.name + " " + "Номер: " + aBook.number + "\n";
         }
         return result;
     }
+
+
 
     public static void main(String[] args) {
         PhoneBook f = new PhoneBook();
