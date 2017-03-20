@@ -2,61 +2,49 @@ package books;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.*;
 
 public class PhoneBook {
 
-    private static ArrayList<Obj> book = new ArrayList<>();
+    private static ArrayList<Record> book = new ArrayList<>();
 
-    private boolean trueNumber(String numPhone) {  //проверка формата номера
-        Pattern p = Pattern.compile("[\\d*#()\\-+]+");
-        Matcher m = p.matcher(numPhone);
-        return m.matches();
-    }
 
     public void addRecord(String name, String numPhone) {
-        Obj a = new Obj();
-        a.name = name;
-        if (trueNumber(numPhone)) {
-            a.number.add(numPhone);
-            book.add(a);
-        }
-        else System.out.println("Номер некорректен");
+        Record a = new Record(name, numPhone);
+        book.add(a);
     }
 
     //метод удаление записи
     public void delRecord(String names) {
-        Obj result = new Obj();
-        for (Obj aBook : book) {
+        Record result = null;
+        for (Record aBook : book) {
             if (names.equals(aBook.name)) result = aBook;
         }
-        book.remove(result);
+        if (result != null)
+            book.remove(result);
     }
 
     //метод добавления номера
     public void addNumber(String names, String numbers) {
-        for (Obj aBook : book) {
+        for (Record aBook : book) {
             if (names.equals(aBook.name)) {
-                if (trueNumber(numbers)) aBook.number.add(numbers);
-                else System.out.println("Номер некорректен");
+                aBook.numbers.add(numbers);
             }
         }
     }
 
     //метод удаление номера
-    private void delNumber(String names, String numbers) {
-        for (Obj aBook : book) {
+    public void delNumber(String names, String numbers) {
+        for (Record aBook : book) {
             if (names.equals(aBook.name)) {
-                aBook.number.remove(numbers);
+                aBook.numbers.remove(numbers);
             }
         }
     }
 
     //метод поиска по имени
-    private ArrayList<Obj> searchByName(String names) {
-        ArrayList<Obj> miniBook = new ArrayList<>();
-        //Obj result = new Obj();
-        for (Obj aBook : book) {
+    public ArrayList<Record> searchByName(String names) {
+        ArrayList<Record> miniBook = new ArrayList<>();
+        for (Record aBook : book) {
             if (names.equals(aBook.name)) {
                 miniBook.add(aBook);
             }
@@ -66,27 +54,25 @@ public class PhoneBook {
     }
 
     //метод поиск по номеру
-    private ArrayList<Obj> searchByNumber(String numbers) {
-       // Obj result = new Obj();
-        ArrayList<Obj> miniBook = new ArrayList<>();
-        for (Obj aBook : book) {
-            if (aBook.number.indexOf(numbers) != -1) {
+    public ArrayList<Record> searchByNumber(String numbers) {
+        ArrayList<Record> miniBook = new ArrayList<>();
+        for (Record aBook : book) {
+            if (aBook.numbers.indexOf(numbers) != -1) {
                 miniBook.add(aBook);
             }
         }
-        return miniBook; //System.out.println("Контактов с этим номером нет");
+        return miniBook;
     }
 
     //формат вывода
     @Override
     public String toString() {
         String result = "";
-        for (Obj aBook : book) {
-            result = result + "Имя: " + aBook.name + " " + "Номер: " + aBook.number + "\n";
+        for (Record aBook : book) {
+            result = result + "Имя: " + aBook.name + " " + "Номер: " + aBook.numbers + "\n";
         }
         return result;
     }
-
 
 
     public static void main(String[] args) {
@@ -145,7 +131,7 @@ public class PhoneBook {
                 String q = in.next();
                 System.out.print("Введите номер: ");
                 String c = in.next();
-                f.delNumber(q,c);
+                f.delNumber(q, c);
                 System.out.print(f.toString());
             }
 
@@ -154,8 +140,8 @@ public class PhoneBook {
             }
             System.out.print("Введите номер команды: ");
             ans = in.nextInt();
-
         }
     }
 }
+
 
