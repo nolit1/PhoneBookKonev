@@ -1,11 +1,12 @@
 package books;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PhoneBook {
 
-    private static ArrayList<Record> book = new ArrayList<>();
+    private ArrayList<Record> book = new ArrayList<>();
 
 
     public void addRecord(String name, String numPhone) {
@@ -13,11 +14,16 @@ public class PhoneBook {
         book.add(a);
     }
 
+    public void addRecord(String name, List<String> numbers) {
+        Record a = new Record(name, numbers);
+        book.add(a);
+    }
+
     //метод удаление записи
     public void delRecord(String names) {
         Record result = null;
         for (Record aBook : book) {
-            if (names.equals(aBook.name)) result = aBook;
+            if (names.equals(aBook.getName())) result = aBook;
         }
         if (result != null)
             book.remove(result);
@@ -26,8 +32,8 @@ public class PhoneBook {
     //метод добавления номера
     public void addNumber(String names, String numbers) {
         for (Record aBook : book) {
-            if (names.equals(aBook.name)) {
-                aBook.numbers.add(numbers);
+            if (names.equals(aBook.getName())) {
+                aBook.getNumbers().add(numbers);
             }
         }
     }
@@ -35,17 +41,17 @@ public class PhoneBook {
     //метод удаление номера
     public void delNumber(String names, String numbers) {
         for (Record aBook : book) {
-            if (names.equals(aBook.name)) {
-                aBook.numbers.remove(numbers);
+            if (names.equals(aBook.getName())) {
+                aBook.getNumbers().remove(numbers);
             }
         }
     }
 
     //метод поиска по имени
-    public ArrayList<Record> searchByName(String names) {
+    public List<Record> searchByName(String names) {
         ArrayList<Record> miniBook = new ArrayList<>();
         for (Record aBook : book) {
-            if (names.equals(aBook.name)) {
+            if (names.equals(aBook.getName())) {
                 miniBook.add(aBook);
             }
 
@@ -54,10 +60,10 @@ public class PhoneBook {
     }
 
     //метод поиск по номеру
-    public ArrayList<Record> searchByNumber(String numbers) {
+    public List<Record> searchByNumber(String numbers) {
         ArrayList<Record> miniBook = new ArrayList<>();
         for (Record aBook : book) {
-            if (aBook.numbers.indexOf(numbers) != -1) {
+            if (aBook.getNumbers().indexOf(numbers) != -1) {
                 miniBook.add(aBook);
             }
         }
@@ -69,11 +75,26 @@ public class PhoneBook {
     public String toString() {
         String result = "";
         for (Record aBook : book) {
-            result = result + "Имя: " + aBook.name + " " + "Номер: " + aBook.numbers + "\n";
+            result = result + "Имя: " + aBook.getName() + " " + "Номер: " + aBook.getNumbers() + "\n";
         }
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PhoneBook phoneBook = (PhoneBook) o;
+
+        return book != null ? book.equals(phoneBook.book) : phoneBook.book == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return book != null ? book.hashCode() : 0;
+    }
 
     public static void main(String[] args) {
         PhoneBook f = new PhoneBook();
@@ -142,6 +163,7 @@ public class PhoneBook {
             ans = in.nextInt();
         }
     }
+
 }
 
 

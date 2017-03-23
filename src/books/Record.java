@@ -1,12 +1,20 @@
 package books;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Record {
-    String name;
-    ArrayList<String> numbers = new ArrayList<>();
+    private String name;
+    private ArrayList<String> numbers = new ArrayList<>();
+
+    public String getName(){
+        return name;
+    }
+    public List<String> getNumbers() {
+        return numbers;
+    }
 
     private static boolean trueNumber(String numPhone) {  //проверка формата номера
         Pattern p = Pattern.compile("[\\d*#()\\-+]+");
@@ -19,6 +27,16 @@ public class Record {
         if (trueNumber((number)))
             numbers.add(number);
         else throw new IllegalArgumentException("Номер не соответствует формату");
+    }
+
+
+    public Record(String name, List<String> numbers) {
+        this.name = name;
+        for (String number: numbers) {
+            if (trueNumber(number))
+                this.numbers.add(number);
+            else throw new IllegalArgumentException("Номер не соответствует формату");
+        }
     }
 
     @Override
