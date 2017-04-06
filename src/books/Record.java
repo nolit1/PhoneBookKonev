@@ -9,17 +9,26 @@ public class Record {
     private String name;
     private ArrayList<String> numbers = new ArrayList<>();
 
-    public String getName(){
-        return name;
-    }
-    public List<String> getNumbers() {
-        return numbers;
-    }
-
     private static boolean trueNumber(String numPhone) {  //проверка формата номера
         Pattern p = Pattern.compile("[\\d*#()\\-+]+");
         Matcher m = p.matcher(numPhone);
         return m.matches();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getNumbers() {
+        ArrayList<String> copy = new ArrayList<>();
+        copy.addAll(numbers);
+        return copy;
+    }
+
+    public void addNumber( String number) {
+        if (trueNumber((number)))
+            numbers.add(number);
+        else throw new IllegalArgumentException("Номер не соответствует формату");
     }
 
     public Record(String name, String number) {
@@ -32,7 +41,7 @@ public class Record {
 
     public Record(String name, List<String> numbers) {
         this.name = name;
-        for (String number: numbers) {
+        for (String number : numbers) {
             if (trueNumber(number))
                 this.numbers.add(number);
             else throw new IllegalArgumentException("Номер не соответствует формату");

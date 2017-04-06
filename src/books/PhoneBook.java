@@ -33,7 +33,8 @@ public class PhoneBook {
     public void addNumber(String names, String numbers) {
         for (Record aBook : book) {
             if (names.equals(aBook.getName())) {
-                aBook.getNumbers().add(numbers);
+                aBook.addNumber(numbers);
+                //aBook.addNumber(number);
             }
         }
     }
@@ -159,6 +160,7 @@ public class PhoneBook {
             if (ans == 7) {
                 System.out.println(f.toString());
             }
+
             System.out.print("Введите номер команды: ");
             ans = in.nextInt();
         }
